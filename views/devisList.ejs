@@ -1,0 +1,51 @@
+<%- include components/nav %>
+
+<div class="container">
+  <form action="/devisSearch" method="post" class="search_bar d-none d-md-block">
+    <div class="row">
+      <div class="col-10 col-md-8 offset-1">
+        <input class="form-control" type="text" name="search" placeholder="Rechercher">
+      </div>
+      <div style="margin-right: 5px;">
+        <button class="btn btn-outline-danger" type="submit" name="button">Search <i class="fas fa-search"></i></button>
+      </div>
+      <div style="margin-left: 5px;">
+        <a class="btn btn-outline-danger" href="/devis">Reset</a>
+      </div>
+    </div>
+  </form>
+  <form action="/devisSearch" method="post" class="search_bar_small d-block d-md-none">
+    <div class="col-12">
+      <input class="form-control" type="text" name="search">
+    </div>
+    <div class="text-center">
+      <button class="btn btn-outline-danger search_bar_small_button" type="submit" name="button">Search <i class="fas fa-search"></i></button>
+      <a class="btn btn-outline-danger search_bar_small_button" href="/devis">Reset</a>
+    </div>
+  </form>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Numéro du Devis</th>
+        <th>Nom Client</th>
+        <th class="d-none d-md-table-cell">Ville</th>
+        <th class="d-none d-md-table-cell">Adresse</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% devis.forEach(function(this_devis) { %>
+        <tr class="trclick hoverable" data-href="/displayDevis/<%= this_devis._id %>">
+          <td><%= this_devis.devisNumber %></td>
+          <td><%= this_devis.nom %> <%= this_devis.prenom %></td>
+          <td class="d-none d-md-table-cell"><%= this_devis.ville %></td>
+          <td class="d-none d-md-table-cell"><%= this_devis.adresse %></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <% if (devis.length < 1) { %>
+      <p class="noData">Aucun devis trouvé</p>
+      <% } %>
+  </div>

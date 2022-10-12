@@ -1,0 +1,72 @@
+<%- include components/nav %>
+
+<div "container">
+  <div class="container">
+    <p class="devis_infos">Devis Numéro <b><%= devis.devisNumber %></b></p>
+    <p class="devis_infos">Client : <b><%= devis.nom %> <%= devis.prenom %></b></p>
+    <p class="devis_infos">Identifiant Client : <b><%= devis.clientID %></b></p>
+    <p class="devis_infos">Télephone : <b><%= devis.telephone %></b></p>
+    <p class="devis_infos">Mail : <b><%= devis.mail %></b></p>
+    <p class="devis_infos">Adresse : <b><%= devis.adresse %> <%= devis.adresseBis %> <%= devis.cp %> <%= devis.ville %></b></p>
+    <br>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th class="d-none d-md-table-cell">PU. HT</th>
+          <th class="d-none d-md-table-cell">TVA</th>
+          <th class="d-none d-md-table-cell">Tot. TVA</th>
+          <th class="d-none d-md-table-cell">PU. TTC</th>
+          <th>Qté</th>
+          <th class="d-none d-md-table-cell">Tot. HT</th>
+          <th>Tot. TTC</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% devis.prestations.forEach(function(prestation) { %>
+          <tr>
+            <td><%= prestation.name %></td>
+            <td class="d-none d-md-table-cell"><%= Number(prestation.price).toFixed(2) %>€</td>
+            <td class="d-none d-md-table-cell"><%= prestation.tva %>%</td>
+            <td class="d-none d-md-table-cell"><%= Number(prestation.tvaMontant).toFixed(2) %>€</td>
+            <td class="d-none d-md-table-cell"><%= Number(prestation.priceTTC).toFixed(2) %>€</td>
+            <td><%= prestation.quantity %></td>
+            <td class="d-none d-md-table-cell"><%= (Number(prestation.price) * Number(prestation.quantity)).toFixed(2)%>€</td>
+            <td><%= (Number(prestation.priceTTC) * Number(prestation.quantity)).toFixed(2) %>€</td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="client_buttons_container">
+      <div class="row client_buttons">
+        <div class="client_button">
+          <form action="/devisToFacture" method="post">
+            <input style="display:none;" type="text" name="_id" value="<%= devis._id %>">
+            <input style="display:none;" type="text" name="client_id" value="<%= devis.client_id %>">
+            <input style="display:none;" type="text" name="clientID" value="<%= devis.clientID %>">
+            <input style="display:none;" type="text" name="nom" value="<%= devis.nom %>">
+            <input style="display:none;" type="text" name="prenom" value="<%= devis.prenom %>">
+            <input style="display:none;" type="text" name="adresse" value="<%= devis.adresse %>">
+            <input style="display:none;" type="text" name="adresseBis" value="<%= devis.adresseBis %>">
+            <input style="display:none;" type="text" name="ville" value="<%= devis.ville %>">
+            <input style="display:none;" type="text" name="cp" value="<%= devis.cp %>">
+            <input style="display:none;" type="text" name="telephone" value="<%= devis.telephone %>">
+            <input style="display:none;" type="text" name="mail" value="<%= devis.mail %>">
+            <input style="display:none;" type="text" name="counter" value="<%= devis.counter %>">
+            <input style="display:none;" type="text" name="devisNumber" value="<%= devis.devisNumber %>">
+            <% devis.prestations.forEach(function(prestation) { %>
+              <input style="display:none;" type="text" name="prestation" value='{"_id": "<%= prestation.id %>", "name": "<%= prestation.name %>", "price": "<%= prestation.price %>", "quantity": "<%= prestation.quantity %>", "priceTTC": "<%= prestation.priceTTC %>", "tvaMontant": "<%= prestation.tvaMontant %>", "tvaValue": "<%= prestation.tvaValue %>", "tva": "<%= prestation.tva %>"}'>
+              <% }) %>
+              <button class="btn btn-outline-danger" type="submit">Facturer</button>
+            </form>
+          </div>
+          <div class="client_button">
+            <a class="btn btn-outline-danger" href="/facture/Devis N°<%= devis.devisNumber %>.pdf">Afficher</a>
+          </div>
+        </div>
+      </div>
+      
+    </div>

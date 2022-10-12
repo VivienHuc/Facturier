@@ -1,0 +1,51 @@
+<%- include components/nav %>
+
+<div class="container">
+  <form action="<%= client._id %>" method="post">
+    <input style="display:none;" type="text" name="id" value="<%= client._id %>">
+    <div class="form-group">
+      <label for="entreprise">Nom de l'entreprise</label>
+      <input type="text" class="form-control" id="entreprise" name="entreprise" value="<%= client.entreprise %>">
+    </div>
+    <div class="form-group">
+      <label for="prenom">Prénom</label>
+      <input type="text" class="form-control" id="prenom" name="prenom" value="<%= client.prenom %>">
+    </div>
+    <div class="form-group">
+      <label for="nom">Nom</label>
+      <input type="text" class="form-control" id="nom" name="nom" value="<%= client.nom %>">
+    </div>
+    <div class="form-group">
+      <label for="adresse">Adresse</label>
+      <input type="text" class="form-control" id="adresse" name="adresse" value="<%= client.adresse %>">
+    </div>
+    <div class="form-group">
+      <label for="adresseBis">Complément d'adresse</label>
+      <input type="text" class="form-control" id="adresseBis" name="adresseBis" value="<%= client.adresseBis %>">
+    </div>
+    <div class="form-group">
+      <label for="ville">Ville</label>
+      <input type="text" class="form-control" id="ville" name="ville" value="<%= client.ville %>">
+    </div>
+    <div class="form-group">
+      <label for="cp">Code postal</label>
+      <input type="text" class="form-control" id="cp" name="cp" value="<%= client.cp %>">
+    </div>
+    <div class="form-group">
+      <label for="telephone">Téléphone</label>
+      <input type="text" class="form-control" id="telephone" name="telephone" value="<%= client.telephone %>">
+    </div>
+    <div class="form-group">
+      <label for="telephone">Mail</label>
+      <input type="text" class="form-control" id="telephone" name="mail" value="<%= client.mail %>">
+    </div>
+    <div class="d-flex justify-content-center">
+      <div class="update_buttons">
+        <button class="btn btn-outline-danger" type="submit">Modifier</button>
+      </div>
+      <div class="update_buttons">
+        <a class="btn btn-outline-danger" href="/client/<%= client._id %>" role="button">Annuler</a>
+      </div>
+    </div>
+  </form>
+</div>

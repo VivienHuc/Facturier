@@ -1,0 +1,123 @@
+<%- include components/nav %>
+
+<div class="container">
+  <div class="container">
+    <div class="form-group col-sm-8 col-md-12 col-lg-8 offset-sm-2 offset-md-0 offset-lg-2">
+      <select id="intervention" class="custom-select">
+        <option value="" disabled selected>Sélectionner La Prestation</option>
+        <% prestations.forEach(function(prestation) { %>
+          <option value='{
+            "id": "<%= prestation._id %>",
+            "name": "<%= prestation.name %>",
+            "price": <%= prestation.priceHT %>,
+            "priceTTC": <%= prestation.priceTTC %>,
+            "tvaValue": <%= prestation.tvaValue %>,
+            "tvaMontant": <%= prestation.tvaMontant %>,
+            "tva": "<%= prestation.tva %>"
+          }'><%= prestation.name %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="col-12 text-center" style="margin-bottom: 30px;">
+        <button id="add" class="btn btn-outline-danger" type="button">Ajouter</button>
+      </div>
+    </div>
+
+    <form action="/devis" method="post">
+      <input style="display:none;" type="text" name="_id" value="<%= this_client._id %>">
+      <input style="display:none;" type="text" name="clientID" value="<%= this_client.clientID %>">
+      <input style="display:none;" type="text" name="nom" value="<%= this_client.nom %>">
+      <input style="display:none;" type="text" name="prenom" value="<%= this_client.prenom %>">
+      <input style="display:none;" type="text" name="adresse" value="<%= this_client.adresse %>">
+      <input style="display:none;" type="text" name="adresseBis" value="<%= this_client.adresseBis %>">
+      <input style="display:none;" type="text" name="ville" value="<%= this_client.ville %>">
+      <input style="display:none;" type="text" name="cp" value="<%= this_client.cp %>">
+      <input style="display:none;" type="text" name="telephone" value="<%= this_client.telephone %>">
+      <input style="display:none;" type="text" name="mail" value="<%= this_client.mail %>">
+      <input id="counter" style="display:none;" type="number" name="counter">
+      <div class="container" id="interventions"></div>
+      <div class="text-center" style="margin-top: 10px;">
+        <button class="btn btn-outline-danger" type="submit">Valider le Devis</button>
+      </div>
+    </form>
+  </div>
+
+  <script type="text/javascript">
+    function setAttributes(el, attrs) {
+      for(var key in attrs) {
+        el.setAttribute(key, attrs[key]);
+      }
+    }
+
+    var interventions = document.getElementById('interventions');
+    var intervention = document.getElementById('intervention');
+    var add = document.getElementById('add');
+    var i = -1;
+
+    add.addEventListener("click", function() {
+      var data = JSON.parse(intervention.value);
+      var div = document.createElement("div");
+      div.setAttribute("class", "row");
+      i++;
+      var idx = '[' + i + ']';
+      setAttributes(div, {"id" : "" + i, "style" : "display: flex; align-items: baseline;"});
+      document.getElementById('counter').setAttribute("value", i);
+
+      var id = document.createElement("input");
+      setAttributes(id, {"style" : "display : none;", "name" : "id" + idx, "value" : data.id});
+      div.appendChild(id);
+
+      var name = document.createElement("p");
+      var name_value = document.createTextNode(data.name);
+      var input_name = document.createElement("input");
+      setAttributes(input_name, {"style" : "display:none;", "type" : "text", "value" : data.name, "name" : "name" + idx});
+      setAttributes(name, {"class" : "col-7 col-md-6", "name" : "name" + idx});
+      name.appendChild(name_value);
+      div.appendChild(input_name);
+      div.appendChild(name);
+
+      var price = document.createElement("p");
+      var price_value = document.createTextNode(data.price + "€");
+      var input_price = document.createElement("input");
+      setAttributes(input_price, {"style" : "display:none;", "type" : "number", "value" : data.price, "name" : "price" + idx});
+      setAttributes(price, {"class" : "col-2"});
+      price.appendChild(price_value);
+      div.appendChild(input_price);
+      div.appendChild(price);
+
+      var quantity = document.createElement("input");
+      setAttributes(quantity, {"class" : "form-control col-2", "type" : "number", "value" : 1, "name" : "quantity" + idx, "min" : "1"});
+      div.appendChild(quantity);
+
+      var priceTTC = document.createElement("input");
+      setAttributes(priceTTC, {"style" : "display:none;", "type" : "number", "value" : data.priceTTC, "name" : "priceTTC" + idx});
+      div.appendChild(priceTTC);
+
+      var tvaMontant = document.createElement("input");
+      setAttributes(tvaMontant, {"style" : "display:none;", "type" : "number", "value" : data.tvaMontant, "name" : "tvaMontant" + idx});
+      div.appendChild(tvaMontant);
+
+      var tvaValue = document.createElement("input");
+      setAttributes(tvaValue, {"style" : "display:none;", "type" : "number", "value" : data.tvaValue, "name" : "tvaValue" + idx});
+      div.appendChild(tvaValue);
+
+      // var tva = document.createElement("p");
+      // var tva_value = document.createTextNode(data.tva  + "%");
+      var tva_value_input = document.createElement("input");
+      setAttributes(tva_value_input, {"style" : "display:none;", "type" : "text", "value" : data.tva, "name" : "tva" + idx});
+      // setAttributes(tva, {"class" : "d-none d-md-block col-2"});
+      // tva.appendChild(tva_value);
+      div.appendChild(tva_value_input);
+      // div.appendChild(tva);
+
+      var deleteBtn = document.createElement("i");
+      setAttributes(deleteBtn, {"class" : "fas fa-trash icon col-1", "onclick" : "deleteLine(" + idx + ")"});
+      div.appendChild(deleteBtn)
+
+      interventions.appendChild(div);
+    });
+
+    function deleteLine(i) {
+      document.getElementById(i).remove();
+    }
+  </script>

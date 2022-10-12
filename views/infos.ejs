@@ -1,0 +1,54 @@
+<%- include components/nav %>
+
+<div class="container">
+  <form action="/updateInfos" method="post">
+    <div class="row">
+      <div class="form-group col-12">
+        <label for="raisonSociale">Raison sociale</label>
+        <input type="text" class="form-control" id="raisonSociale" name="raisonSociale" value="<%= user.raisonSociale %>">
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-12">
+        <label for="adresse">Adresse</label>
+        <input type="text" class="form-control" id="adresse" name="adresse" value="<%= user.adresse %>">
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-12 col-lg-6">
+        <label for="ville">Ville</label>
+        <input type="text" class="form-control" id="ville" name="ville" value="<%= user.ville %>">
+      </div>
+      <div class="form-group col-12 col-lg-6">
+        <label for="cp">Code Postal</label>
+        <input type="text" class="form-control" id="cp" name="cp" value="<%= user.cp %>">
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-12 col-lg-6">
+        <label for="email">Mail</label>
+        <input type="text" class="form-control" id="email" name="email" value="<%= user.email %>">
+      </div>
+      <div class="form-group col-12 col-lg-6">
+        <label for="telephone">Telephone</label>
+        <input type="text" class="form-control" id="telephone" name="telephone" value="<%= user.telephone %>">
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-12 col-lg-6">
+        <label for="identifiantTva">Forme Juridique</label>
+        <input type="text" class="form-control" id="formeJuridique" name="formeJuridique" value="<%= user.formeJuridique %>">
+      </div>
+      <div class="form-group col-12 col-lg-6">
+        <label for="identifiantTva">Identifiant TVA</label>
+        <input type="text" class="form-control" id="identifiantTva" name="identifiantTva" value="<%= user.identifiantTva %>">
+      </div>
+    </div>
+
+    <div class="row client_buttons">
+      <div class="client_button">
+        <button class="btn btn-outline-danger" type="submit">Modifier</button>
+      </div>
+    </div>
+  </form>
+</div>

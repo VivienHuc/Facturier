@@ -1,0 +1,142 @@
+<%- include components/nav %>
+
+<div class="container">
+  <form action="/factureSearch" method="post" class="search_bar d-none d-md-block">
+    <div class="row">
+      <div class="col-10 col-md-8 offset-1">
+        <input class="form-control" type="text" name="search" placeholder="Rechercher">
+      </div>
+      <div style="margin-right: 5px;">
+        <button class="btn btn-outline-danger" type="submit" name="button">Rechercher
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+      <div style="margin-left: 5px;">
+        <a class="btn btn-outline-danger" href="/factures">Annuler
+          <i class="fas fa-times"></i>
+        </a>
+      </div>
+    </div>
+  </form>
+  <form action="/factureSearch" method="post" class="search_bar_small d-block d-md-none">
+    <div class="col-12">
+      <input class="form-control" type="text" name="search">
+    </div>
+    <div class="text-center" style="margin-top:1vh;">
+      <button class="btn btn-outline-danger search_bar_small_button" type="submit" name="button">Rechercher
+        <i class="fas fa-search"></i>
+      </button>
+      <a class="btn btn-outline-danger search_bar_small_button" href="/factures">Annuler
+        <i class="fas fa-times"></i>
+      </a>
+    </div>
+  </form>
+
+  <div class="container filter d-md-none">
+    <form action="/factureSearch" method="post">
+      <input type="hidden" name="searchFilter" value="notPayed">
+      <input type="hidden" name="search" value="<%= searched %>">
+      <button class="btn btn-outline-danger btn-sm" type="submit" name="button">Non Payées</button>
+    </form>
+    <form action="/factureSearch" method="post">
+      <input type="hidden" name="searchFilter" value="isPayed">
+      <input type="hidden" name="search" value="<%= searched %>">
+      <button class="btn btn-outline-danger btn-sm" type="submit" name="button">Payées</button>
+    </form>
+    <form action="/factureSearch" method="post">
+      <input type="hidden" name="search" value="<%= searched %>">
+      <button class="btn btn-outline-danger btn-sm" type="submit" name="button">Toutes</button>
+    </form>
+  </div>
+
+  <div class="container filter d-none d-md-inline-flex">
+    <form action="/factureSearch" method="post">
+      <input type="hidden" name="searchFilter" value="notPayed">
+      <input type="hidden" name="search" value="<%= searched %>">
+      <button class="btn btn-outline-danger" type="submit" name="button">Non Payées
+        <i class="far fa-times-circle"></i>
+      </button>
+    </form>
+    <form action="/factureSearch" method="post">
+      <input type="hidden" name="searchFilter" value="isPayed">
+      <input type="hidden" name="search" value="<%= searched %>">
+      <button class="btn btn-outline-danger" type="submit" name="button">Payées
+        <i class="far fa-check-circle"></i>
+      </button>
+    </form>
+    <form action="/factureSearch" method="post">
+      <input type="hidden" name="search" value="<%= searched %>">
+      <button class="btn btn-outline-danger" type="submit" name="button">Toutes
+        <i class="far fa-dot-circle"></i>
+      </button>
+    </form>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Numéro de la Facture</th>
+        <th>Entreprise</th>
+        <th class="d-none d-md-table-cell">Ville</th>
+        <th class="d-none d-md-table-cell">Adresse</th>
+        <th>Statut</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% factures.forEach(function(facture) { %>
+      <% if (facture.limitHit == true && facture.payed == false) { %>
+      <tr class="hoverable" style="color:red;">
+        <% } else { %>
+      <tr class="hoverable">
+        <% } %>
+        <td class="trclick" data-href="/facture/Facture N°<%= facture.factureNumber %>.pdf"><%= facture.factureNumber %></td>
+        <td class="trclick" data-href="/facture/Facture N°<%= facture.factureNumber %>.pdf"><%= facture.entreprise %></td>
+        <td class="d-none d-md-table-cell trclick" data-href="/facture/Facture N°<%= facture.factureNumber %>.pdf"><%= facture.ville %></td>
+        <td class="d-none d-md-table-cell trclick" data-href="/facture/Facture N°<%= facture.factureNumber %>.pdf"><%= facture.adresse %></td>
+        <% if (facture.payed == true) { %>
+        <td class="trclick" data-href="/facture/Facture N°<%= facture.factureNumber %>.pdf">Payée</td>
+        <% } %>
+        <% if (facture.payed == false) { %>
+        <td>
+          <form style="display:inline;" action="/isPayed/<%= facture._id %>" method="post" onsubmit="return confirm('Confirmer le paiment de la facture?');"><input type="hidden" name="searched" value="<%= searched %>">
+            <button class="btn btn-outline-danger btn-sm" type="submit" name="button">
+              <i class="fas fa-check"></i>
+            </button>
+          </form>
+        </td>
+        <% } %>
+        <td>
+          <button class="btn btn-outline-danger btn-sm" type="button" onclick="print('/facture/Facture N°<%= facture.factureNumber %>.pdf')">
+            <i class="fas fa-print"></i>
+          </button>
+          <% if (facture.compta == null || facture.compta == false) { %>
+          <a class="btn btn-outline-danger btn-sm" type="button" href="/updateFacture/<%= facture.factureNumber %>">
+            <i class="fa fa-pencil" "></i>
+                  </a>
+                  <form action=" /lockFacture/<%= facture._id %>" method="GET" onsubmit="return confirm('Vérouiller la facture ?');">
+              <button class="btn btn-outline-danger btn-sm" type="submit">
+                <i class="fas fa-lock"></i>
+              </button>
+              </form>
+              <% } %>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  <% if (factures.length < 1) { %>
+  <p class="noData">Aucune facture trouvée</p>
+  <% } %>
+</div>
+
+<script type="text/javascript">
+  function print(pdf) {
+    var iframe = document.createElement('iframe');
+    iframe.style.visibility = "hidden";
+    iframe.src = pdf;
+    document.body.appendChild(iframe);
+    iframe.contentWindow.focus();
+    iframe.contentWindow.print();
+  }
+</script>

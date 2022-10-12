@@ -1,0 +1,197 @@
+<%- include components/nav %>
+
+  <div class="container" id="container">
+    <% facture.prestations.forEach(function(prestation) { %>
+      <div class="card client_buttons_container">
+        <div class="prestations text-center card-body" id="<%= prestation.id %>">
+          <p><%= prestation.name %></p>
+          <p>
+            Prix HT :
+            <%= prestation.price %>€</p>
+          <p id="<%= prestation.id %>/<%= prestation.quantity %>">Quantité :
+            <%= prestation.quantity %></p>
+          <button type="button" name="button" class="btn btn-outline-danger" onclick="updatePrestation('<%= prestation.id %>', '<%= prestation.quantity %>')">Modifier</button>
+          <button type="button" name="button" class="btn btn-outline-danger" onclick="deletePrestation('<%= prestation.id %>')">Supprimer</button>
+        </div>
+      </div>
+
+      <% }) %>
+      </div>
+
+      <div class="col-md-8 offset-md-2" style="margin-top:4vh;">
+        <select id="prestation" class="custom-select">
+          <option value="" disabled="disabled" selected="selected">Sélectionner La Prestation</option>
+          <% prestations.forEach(function(prestation) { %>
+            <option
+              value='{ "id": "<%= prestation._id %>", "name": "<%= prestation.name %>", "price": <%= prestation.priceHT %>, "priceTTC": <%= prestation.priceTTC %>, "tvaValue": <%= prestation.tvaValue %>, "tvaMontant": <%= prestation.tvaMontant %>, "tva": "<%= prestation.tva %>"}'><%= prestation.name %></option>
+            <% }) %>
+            </select>
+
+            <button type="button" name="button" class="btn btn-outline-danger col-8 col-md-2 offset-md-5 offset-2" onclick="addPrestation()" style="margin-top:2vh;">Ajouter prestation</button>
+          </div>
+
+          <div class="row client_buttons" style="margin-top:3vh;">
+            <div class="client_button">
+              <form id="updatesForm" action="/updateFacture/<%= facture._id %>" method="POST" onsubmit="confirm('Confirmer les modifications ?')">
+                <button type="submit" class="btn btn-outline-danger">Valider</button>
+              </form>
+            </div>
+            <div class="client_button">
+              <a href="/factures" type="button" class="btn btn-outline-danger">Annuler</a>
+            </div>
+          </div>
+
+          <script type="text/javascript">
+
+            function isNumeric(str) {
+              if (typeof str != "string") 
+                return false
+              return !isNaN(str) && !isNaN(parseFloat(str))
+            }
+
+            function setAttributes(el, attrs) {
+              for (var key in attrs) {
+                el.setAttribute(key, attrs[key]);
+              }
+            }
+
+            function removeElement(elementId) {
+              var element = document.getElementById(elementId);
+              element.parentNode.removeChild(element);
+            }
+
+            var newPrestation;
+
+            document.getElementById('prestation').addEventListener('change', (event) => {
+              newPrestation = JSON.parse(document.getElementById('prestation').value);
+            });
+
+            var form = document.getElementById('updatesForm');
+            var container = document.getElementById('container');
+
+            function deletePrestation(id) {
+              if (window.confirm("Supprimer la prestation ?")) {
+                var deleteObject = {
+                  update: "delete",
+                  id: id.toString()
+                }
+                var deleteString = JSON.stringify(deleteObject);
+
+                var update = document.createElement("input");
+                setAttributes(update, {
+                  "style": "display:none;",
+                  "type": "text",
+                  "name": "update"
+                });
+                update.value = deleteString;
+
+                form.appendChild(update);
+                removeElement(id);
+              }
+            }
+
+            function updatePrestation(id, quantity) {
+              var newQuantity = prompt("Quantité : ", quantity);
+              if (newQuantity != null) {
+                if (!isNumeric(newQuantity)) {
+                  alert('Erreur, l\'entrée n\'a pas été modifiée.')
+                  return
+                }
+                if (newQuantity == '0' || newQuantity == '') {
+                  deletePrestation(id);
+                  return;
+                }
+                var updateObject = {
+                  update: "update",
+                  id: id.toString(),
+                  quantity: newQuantity.toString()
+                }
+                var updateString = JSON.stringify(updateObject);
+
+                var update = document.createElement("input");
+                setAttributes(update, {
+                  "style": "display:none;",
+                  "type": "text",
+                  "name": "update"
+                });
+                update.value = updateString;
+                form.appendChild(update);
+                var quantity = document.getElementById(id + '/' + quantity);
+                quantity.innerHTML = 'Quantité : ' + newQuantity;
+              }
+            }
+
+            function addPrestation() {
+              var newPrestation = JSON.parse(document.getElementById('prestation').value);
+              var prestations = document.getElementsByClassName("prestations");
+              for (var i = 0; i < prestations.length; i++) {
+                if (newPrestation.id == prestations[i].id) {
+                  alert("Cette prestation est déja présente dans la facture")
+                  return
+                }
+              }
+              var quantity = prompt("Quantité : ", quantity);
+              if (quantity != null) {
+                if (!isNumeric(quantity) || quantity == '0' || quantity == '') {
+                  alert('Erreur, la prestation n\' a pas été ajoutée.')
+                  return
+                }
+                newPrestation.quantity = quantity;
+
+                var parentDiv = document.createElement("div");
+                parentDiv.className = "card client_buttons_container";
+
+                var div = document.createElement("div");
+                div.className = "prestations text-center card-body";
+                div.id = newPrestation.id;
+
+                var name = document.createElement("p");
+                name.innerHTML = newPrestation.name;
+                div.appendChild(name);
+
+                var price = document.createElement("p");
+                price.innerHTML = "Prix HT : " + newPrestation.price + "€";
+                div.appendChild(price);
+
+                var quantity = document.createElement("p");
+                quantity.id = newPrestation.id + "/" + newPrestation.quantity
+                quantity.innerHTML = "Quantité : " + newPrestation.quantity;
+                div.appendChild(quantity);
+
+                var updateButton = document.createElement("button");
+                updateButton.type = "button";
+                updateButton.name = "button";
+                updateButton.className = "btn btn-outline-danger";
+                updateButton.setAttribute("onclick", "updatePrestation('" + newPrestation.id + "', '" + newPrestation.quantity + "')")
+                updateButton.innerHTML = 'Modifier';
+                div.appendChild(updateButton);
+
+                var deleteButton = document.createElement("button");
+                deleteButton.type = "button";
+                deleteButton.name = "button";
+                deleteButton.className = "btn btn-outline-danger";
+                deleteButton.setAttribute("onclick", "deletePrestation('" + newPrestation.id + "')")
+                deleteButton.innerHTML = 'Supprimer';
+                div.appendChild(deleteButton);
+
+                parentDiv.appendChild(div);
+                container.appendChild(parentDiv);
+
+                var addObject = {
+                  update: "add",
+                  id: newPrestation.id.toString(),
+                  quantity: newPrestation.quantity.toString()
+                }
+                var addString = JSON.stringify(addObject);
+
+                var update = document.createElement("input");
+                setAttributes(update, {
+                  "style": "display:none;",
+                  "type": "text",
+                  "name": "update"
+                });
+                update.value = addString;
+                form.appendChild(update);
+              }
+            }
+          </script>

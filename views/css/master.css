@@ -1,0 +1,171 @@
+* {
+  font-family: 'Rubik';
+}
+
+#navbar_logo {
+  height: 50px;
+}
+
+#link {
+  text-decoration: none;
+  color: black;
+}
+
+#map {
+  height: 180px;
+}
+
+.table tbody tr:hover td, .table tbody tr:hover th {
+  background-color: rgba(245, 122, 0, 0.5);
+}
+
+.badge {
+  font-size: 0.8rem;
+}
+
+.search_bar {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.search_bar_small {
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.search_bar_small_button {
+  margin: 5px;
+}
+
+.nav-item {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.nav-item a {
+  color: black;
+}
+
+.nav-item a:hover {
+  color: #FF7F46;
+}
+
+.form-control:focus {
+  border-color: #FF7F46;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+.custom-select:focus {
+  border-color: #FF7F46;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+.client_infos {
+  text-align: center;
+}
+
+.client_infos .client_name {
+  font-size: 32px;
+}
+
+.client_infos .client_adresse {
+  font-size: 20px;
+}
+
+.client_infos .client_tel {
+  font-size: 20px;
+}
+
+.client_infos .client_id {
+  font-size: 20px;
+}
+
+.client_buttons_container {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.client_buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.client_button {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.accordion_title {
+  color: black;
+}
+
+.accordion_title:hover {
+  color: #FF7F46;
+}
+
+.badge {
+  background-color: #FF7F46;
+  color: white;
+}
+
+.icon {
+  color: black;
+}
+
+.icon:hover {
+  color: #FF7F46;
+}
+
+.devis_infos {
+  margin: 0;
+  font-size: 20px;
+}
+
+.add_title {
+  text-align: center;
+  font-size: 22px;
+}
+
+.update_buttons {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.noData {
+  text-align: center;
+  font-size: 1.3em;
+}
+
+.err {
+  width: 100vw;
+  height: 80vh;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.err_text {
+  font-size: 1.3em;
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+.filter {
+  width: 100vw;
+  text-align: center;
+  display: inline-flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.filter form {
+  margin-left: 1.5vh;
+  margin-right: 1.5vh;
+}

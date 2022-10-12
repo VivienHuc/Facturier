@@ -1,0 +1,93 @@
+<%- include components/nav %>
+
+<div class="container">
+  <form style="margin-top: 20px;" action="/addClient" method="post">
+    <p class="add_title"><b>Ajouter un client</b></p>
+    <div class="row">
+      <div class="form-group col-sm-12 col-md-12 col-lg-12">
+        <label>Entreprise</label>
+        <input class="form-control" type="text" name="entreprise" value="">
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-12 col-md-12 col-lg-6">
+        <label>Prenom</label>
+        <input class="form-control" type="text" name="prenom" value="">
+      </div>
+      <div class="form-group col-sm-12 col-md-12 col-lg-6">
+        <label>Nom</label>
+        <input class="form-control" type="text" name="nom" value="">
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-12 col-md-12 col-lg-12">
+        <label>Adresse</label>
+        <input class="form-control" type="text" name="adresse" value="">
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-12 col-md-12 col-lg-12">
+        <label>Complément d'adresse</label>
+        <input class="form-control" type="text" name="adresseBis" value="">
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-12 col-md-12 col-lg-6">
+        <label>Ville</label>
+        <input class="form-control" type="text" name="ville" value="">
+      </div>
+      <div class="form-group col-sm-12 col-md-12 col-lg-6">
+        <label>Code Postal</label>
+        <input class="form-control" type="text" name="cp" value="">
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-12 col-md-12 col-lg-6">
+        <label>Téléphone</label>
+        <input class="form-control" type="text" name="telephone" value="">
+      </div>
+      <div class="form-group col-sm-12 col-md-12 col-lg-6">
+        <label>Mail</label>
+        <input class="form-control" type="text" name="mail" value="">
+      </div>
+    </div>
+    <div class="row">
+      <div class="text-center col-12">
+        <button class="btn btn-outline-danger" type="submit">Ajouter
+          <span class="align-middle"><i class="fas fa-user-plus" style="margin-left:5px;"></i></span>
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <form style="margin-top: 50px; margin-bottom: 50px;" action="/addPrestation" method="post">
+    <p class="add_title"><b>Ajouter une prestation</b></p>
+    <div class="row">
+      <div class="form-group col-sm-12 col-md-12 col-lg-8 offset-lg-2">
+        <label>Nom</label>
+        <input class="form-control" type="text" name="name" value="" required>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-12 col-md-6 col-lg-3 offset-lg-3">
+        <label>Prix HT</label>
+        <input class="form-control" type="number" min=0 step=0.01 name="price" value="" required>
+      </div>
+      <div class="form-group col-sm-12 col-md-6 col-lg-3">
+        <label>TVA</label>
+        <select class="custom-select" name="tva" required>
+          <option value='{ "tva": "2,1", "tvaValue": 1.021}'>2,1%</option>
+          <option value='{ "tva": "5,5", "tvaValue": 1.055}'>5,5%</option>
+          <option value='{ "tva": "8,5", "tvaValue": 1.085}'>8,5%</option>
+          <option value='{ "tva": "10", "tvaValue": 1.10}'>10%</option>
+          <option value='{ "tva": "20", "tvaValue": 1.20}' selected>20%</option>
+        </select>
+      </div>
+    </div>
+    <div class="text-center col-sm-12" style="margin-top:12px;">
+      <button class="btn btn-outline-danger" type="submit">Ajouter
+        <span class="align-middle"><i class="fas fa-plus-circle" style="margin-left:5px;"></i></span>
+      </button>
+    </div>
+  </form>
+</div>

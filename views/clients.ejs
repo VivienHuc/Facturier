@@ -1,0 +1,63 @@
+<%- include components/nav %>
+
+  <div class="container">
+    <form action="/search" method="post" class="search_bar d-none d-md-block">
+      <div class="row">
+        <div class="col-10 col-md-8 offset-1">
+          <input class="form-control" type="text" name="search" placeholder="Rechercher">
+        </div>
+        <div style="margin-right: 5px;">
+          <button class="btn btn-outline-danger" type="submit" name="button">Rechercher
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+        <div style="margin-left: 5px;">
+          <a class="btn btn-outline-danger" href="/">Annuler
+            <i class="fas fa-times"></i>
+          </a>
+        </div>
+      </div>
+    </form>
+    <form action="/search" method="post" class="search_bar_small d-block d-md-none">
+      <div class="col-12">
+        <input class="form-control" type="text" name="search">
+      </div>
+      <div class="text-center" style="margin-top:1vh;">
+        <button class="btn btn-outline-danger search_bar_small_button" type="submit" name="button">Rechercher
+          <i class="fas fa-search"></i>
+        </button>
+        <a class="btn btn-outline-danger search_bar_small_button" href="/">Annuler
+          <i class="fas fa-times"></i>
+        </a>
+      </div>
+    </form>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Entreprise</th>
+          <!-- <th class="d-none d-md-table-cell">Nom</th> -->
+          <!-- <th class="d-none d-md-table-cell">Prenom</th> -->
+          <th>Ville</th>
+          <th class="d-none d-md-table-cell">CP</th>
+          <th class="d-none d-md-table-cell">Adresse</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% clients.forEach(function(client) { %>
+          <tr class="trclick hoverable" data-href="/client/<%= client._id %>">
+            <td><%= client.entreprise %></td>
+            <!-- <td class="d-none d-md-table-cell"><%= client.nom %></td> -->
+            <!-- <td class="d-none d-md-table-cell"><%= client.prenom %></td> -->
+            <td><%= client.ville %></td>
+            <td class="d-none d-md-table-cell"><%= client.cp %></td>
+            <td class="d-none d-md-table-cell"><%= client.adresse %></td>
+          </tr>
+          <% }) %>
+          </tbody>
+        </table>
+        <% if (clients.length < 1) { %>
+          <p class="noData">Aucun client trouvé</p>
+        <% } %>
+      </div>

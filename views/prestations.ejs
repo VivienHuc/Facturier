@@ -1,0 +1,54 @@
+<%- include components/nav %>
+
+<div class="container">
+  <form action="/prestationsSearch" method="post" class="search_bar d-none d-md-block">
+    <div class="row">
+      <div class="col-10 col-md-8 offset-1">
+        <input class="form-control" type="text" name="search" placeholder="Rechercher">
+      </div>
+      <div style="margin-right: 5px;">
+        <button class="btn btn-outline-danger" type="submit" name="button">Rechercher <i class="fas fa-search"></i></button>
+      </div>
+      <div style="margin-left: 5px;">
+        <a class="btn btn-outline-danger" href="/prestations">Annuler <i class="fas fa-times"></i></a>
+      </div>
+    </div>
+  </form>
+  <form action="/prestationsSearch" method="post" class="search_bar_small d-block d-md-none">
+    <div class="col-12">
+      <input class="form-control" type="text" name="search">
+    </div>
+    <div class="text-center" style="margin-top:1vh;">
+      <button class="btn btn-outline-danger search_bar_small_button" type="submit" name="button">Rechercher <i class="fas fa-search"></i></button>
+      <a class="btn btn-outline-danger search_bar_small_button" href="/prestations">Annuler <i class="fas fa-times"></i></a>
+    </div>
+  </form>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Désignation</th>
+        <th class="d-none d-md-table-cell">P. HT</th>
+        <th class="d-none d-md-table-cell">TVA</th>
+        <th class="d-none d-md-table-cell">Montant TVA</th>
+        <th>P. TTC</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% prestations.forEach(function(prestation) { %>
+        <tr>
+          <td><%= prestation.name %></td>
+          <td class="d-none d-md-table-cell"><%= Number(prestation.priceHT).toFixed(2) %>€</td>
+          <td class="d-none d-md-table-cell"><%= prestation.tva %>%</td>
+          <td class="d-none d-md-table-cell"><%= prestation.tvaMontant.toFixed(2) %>€</td>
+          <td><%= prestation.priceTTC.toFixed(2) %>€</td>
+          <td><a href="/deletePrestation/<%= prestation._id %>"><i class="fas fa-trash icon"></i></a></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <% if (prestations.length < 1) { %>
+      <p class="noData">Aucune prestation trouvée</p>
+      <% } %>
+    </div>
