@@ -4,7 +4,8 @@
   "description": "Facturier",
   "main": "app.js",
   "scripts": {
-    "start": "pm2 start app.js",
+    "start": "node app.js",
+    "vps-start": "pm2 start app.js",
     "stop": "pm2 stop app.js",
     "dev": "nodemon app.js"
   },
