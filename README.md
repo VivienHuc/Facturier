@@ -50,3 +50,6 @@ This project is not functioning correctly, particularly in the email sending sys
 
 ## Author
 - Vivien Huc
+
+## License
+This project is licensed under the terms of the MIT license.
