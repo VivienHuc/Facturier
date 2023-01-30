@@ -19,15 +19,15 @@ A billing application with customer management and automatic invoice and quote s
 
 2. Move to the project folder
 
-``` cd React_Facturier ````
+``` cd React_Facturier ```
 
 3. Install dependencies
 
-``` npm install ````
+``` npm install ```
 
 4. Start the server
 
-```npm start ````
+```npm start ```
 
 ## Usage
 After starting the server, you can access the application at http://localhost:3000 .
