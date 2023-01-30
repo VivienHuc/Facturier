@@ -22,11 +22,11 @@ A billing application with customer management and automatic invoice and quote s
 
 1. Clone the repository
 
-``` git clone https://github.com/VivienHuc/React_Facturier.git ```
+``` git clone https://github.com/VivienHuc/Facturier.git ```
 
 2. Move to the project folder
 
-``` cd React_Facturier ```
+``` cd Facturier ```
 
 3. Install dependencies
 
